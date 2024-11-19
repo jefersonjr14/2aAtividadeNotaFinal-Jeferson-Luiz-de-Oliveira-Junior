@@ -1,23 +1,19 @@
 <?php
-// Verifica se os dados foram enviados via POST
+// Verifica se os dados foram enviados pelo formulário
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Captura os dados do formulário
+    // Coleta os dados enviados
     $titulo = $_POST['titulo'];
     $autor = $_POST['autor'];
     $ano = $_POST['ano'];
 
-    // Conecta ao banco de dados
+    // Conecta ao banco de dados e insere o novo livro
     include('database.php');
     $pdo = conectar();
-
-    // Prepara a consulta para inserir o novo livro
     $sql = "INSERT INTO livros (titulo, autor, ano) VALUES (?, ?, ?)";
     $stmt = $pdo->prepare($sql);
-
-    // Executa a consulta, passando os dados coletados do formulário
     $stmt->execute([$titulo, $autor, $ano]);
 
-    // Redireciona de volta para a página principal após adicionar o livro
+    // Redireciona para a página principal após adicionar
     header('Location: index.php');
 }
 ?>
